@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing Bulbs</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: brown;
+            color: white;
+        }
+        #bulbsContainer{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .bulb{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bulb img{
+            width: 100px;
+            height: auto;
+        }
+        input[type="checkbox"]{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page0">
+        <h1>Welcome to the Bulb Toggle App</h1>
+        <button onclick="startApp()">Start</button>
+    </div>
+
+    <div id="page1" style="display: none;">
+        <h1>How many bulbs do you want?</h1>
+        <input type="number" id="bulbCount" min="1" placeholder="Enter number of bulbs">
+        <button onclick="createBulbs()">Submit</button>
+    </div>
+
+    <div id="page2" style="display: none;">
+        <h1>Toggle Bulbs</h1>
+        <div id="bulbsContainer"></div>
+    </div>
+
+    <script>
+        function startApp() {
+            document.getElementById('page0').style.display = 'none';
+            document.getElementById('page1').style.display = 'block';
+        }
+
+        function createBulbs() {
+            let bulbCount = document.getElementById('bulbCount').value;
+            if (bulbCount < 1) {
+                alert("Please enter a valid number of bulbs");
+                return;
+            }
+
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+
+            let bulbsContainer = document.getElementById('bulbsContainer');
+            bulbsContainer.innerHTML = '';
+
+            for (let i = 0; i < bulbCount; i++) {
+                let bulbDiv = document.createElement('div');
+                bulbDiv.classList.add('bulb');
+
+                let bulbImg = document.createElement('img');
+                bulbImg.src = 'bulb1.png';
+                bulbImg.id = `bulb-${i}`;
+
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.onclick = function () {
+                    toggleBulb(i, checkbox.checked);
+                };
+
+                bulbDiv.appendChild(bulbImg);
+                bulbDiv.appendChild(checkbox);
+                bulbsContainer.appendChild(bulbDiv);
+            }
+        }
+
+        function toggleBulb(bulbIndex, isChecked) {
+            let bulbImg = document.getElementById(`bulb-${bulbIndex}`);
+            if (isChecked) {
+                bulbImg.src = 'bulbglow.png';
+            } else {
+                bulbImg.src = 'bulb1.png';
+            }
+        }
+    </script>
+</body>
+</html>
